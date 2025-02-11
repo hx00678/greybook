@@ -66,8 +66,10 @@ class Post(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(60))
     body: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc), index=True)
-    updated_at: Mapped[Optional[datetime]] = mapped_column(onupdate=lambda: datetime.now(timezone.utc))
+    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc),
+                                                 index=True)
+    updated_at: Mapped[Optional[datetime]] = mapped_column(
+        onupdate=lambda: datetime.now(timezone.utc))
     can_comment: Mapped[bool] = mapped_column(default=True)
 
     category_id: Mapped[int] = mapped_column(ForeignKey('category.id'))
