@@ -21,10 +21,8 @@ def login():
         password = form.password.data
         remember = form.remember.data
         admin = db.session.scalar(select(Admin))
-        validatePassword = admin.validate_password(password)
-        print('validate_password', validatePassword)
         if admin:
-            if username == admin.username:
+            if username == admin.username and admin.validate_password(password):
                 login_user(admin, remember)
                 flash('Welcome back.', 'info')
                 return redirect_back()

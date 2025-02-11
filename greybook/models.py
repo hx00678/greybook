@@ -66,17 +66,14 @@ class Post(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(60))
     body: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc),
-                                                 index=True)
-    updated_at: Mapped[Optional[datetime]] = mapped_column(
-        onupdate=lambda: datetime.now(timezone.utc))
+    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc), index=True)
+    updated_at: Mapped[Optional[datetime]] = mapped_column(onupdate=lambda: datetime.now(timezone.utc))
     can_comment: Mapped[bool] = mapped_column(default=True)
 
     category_id: Mapped[int] = mapped_column(ForeignKey('category.id'))
 
     category: Mapped['Category'] = relationship(back_populates='posts')
-    comments: Mapped[list['Comment']] = relationship(back_populates='post',
-                                                     cascade='all, delete-orphan')
+    comments: Mapped[list['Comment']] = relationship(back_populates='post', cascade='all, delete-orphan')
 
     def __repr__(self):
         return f'<Post {self.id}: {self.title}>'
@@ -110,15 +107,13 @@ class Comment(db.Model):
     body: Mapped[str] = mapped_column(Text)
     from_admin: Mapped[bool] = mapped_column(default=False)
     reviewed: Mapped[bool] = mapped_column(default=False)
-    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc),
-                                                 index=True)
+    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc), index=True)
 
     replied_id: Mapped[Optional[int]] = mapped_column(ForeignKey('comment.id'))
     post_id: Mapped[int] = mapped_column(ForeignKey('post.id'))
 
     post: Mapped['Post'] = relationship(back_populates='comments')
-    replies: Mapped[list['Comment']] = relationship(back_populates='replied',
-                                                    cascade='all, delete-orphan')
+    replies: Mapped[list['Comment']] = relationship(back_populates='replied', cascade='all, delete-orphan')
     replied: Mapped['Comment'] = relationship(back_populates='replies', remote_side=[id])
 
     def __repr__(self):

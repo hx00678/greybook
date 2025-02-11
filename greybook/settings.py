@@ -40,7 +40,6 @@ class BaseConfig:
 
 class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = SQLITE_PREFIX + str(BASE_DIR / 'data-dev.db')
-    print('Using development database }}}}}::::===--> ', SQLALCHEMY_DATABASE_URI)
 
 
 class TestingConfig(BaseConfig):
